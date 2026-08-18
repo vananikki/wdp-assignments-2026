@@ -1,0 +1,10 @@
+// Source code is decompiled from a .class file using FernFlower decompiler (from Intellij IDEA).
+public class Main {
+   public Main() {
+   }
+
+   public static void main(String[] var0) {
+      Person var1 = new Person("Vana", (double)48.0F, 1.6);
+      var1.showInfo();
+   }
+}
