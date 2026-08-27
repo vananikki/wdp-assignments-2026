@@ -1,0 +1,153 @@
+/* 1. Element Selector: Styles all <h1> elements by default */
+h1 {
+  color: #555555;
+  font-size: 24px;
+}
+
+/* 2. Element Selector: Base font styles for paragraphs */
+p {
+  color: #333333;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* 3. Class Selector: Applied to specific elements */
+.highlight {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 8px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+/* 4. ID Selector: Has higher specificity and overrides the h1 rule */
+#main-header {
+  color: #0d6efd;
+  font-size: 32px;
+}
+
+/* 5. Pseudo-class: Hover effect for links */
+a {
+  color: #0d6efd;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: #d63384;
+  text-decoration: underline;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background-color: #f4f6f9;
+  padding: 24px;
+}
+
+.card-container {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Base Data Card Styles */
+.data-card {
+  width: 250px;
+  
+  /* 1. Padding: internal space */
+  padding: 20px;
+  
+  /* 2. Border: stroke line */
+  border: 3px solid #0d6efd;
+  border-radius: 8px;
+  
+  /* 3. Margin: external spacing around the card */
+  margin: 12px;
+  
+  background-color: #ffffff;
+}
+
+/* Card 1: Default box model for comparison */
+.card-content-box {
+  box-sizing: content-box;
+}
+
+/* Cards 2 & 3: Standard modern box model */
+.card-border-box {
+  box-sizing: border-box;
+}
+
+.data-card h3 {
+  margin-top: 0;
+  color: #6c757d;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.data-card .metric {
+  font-size: 28px;
+  font-weight: 700;
+  color: #212529;
+  margin: 8px 0;
+}
+
+.data-card .description {
+  font-size: 13px;
+  color: #198754;
+  margin-bottom: 0;
+}
+
+/* Dashboard Flexbox Container */
+.dashboard {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap; /* Allows wrapping if viewport width drops below ~860px */
+  
+  /* Uncomment to test justify-content: */
+  /* justify-content: space-between; */
+}
+
+/* Dashboard Card Children */
+.card {
+  /* flex: <flex-grow> <flex-shrink> <flex-basis> */
+  flex: 1 1 200px;
+  
+  background-color: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.card h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.card .stat {
+  font-size: 26px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+button {
+    background-color: red;
+    animation-name: buttonAnimation;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes buttonAnimation {
+  0%   {background-color: red;}
+  25%  {background-color: yellow;}
+  50%  {background-color: blue;}
+  100% {background-color: green;}
+}
+
+/* Khi bị tắt animation */
+.stop {
+    animation: none;
+}

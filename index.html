@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 2 CSS Practice</title>
+  <!-- Link external stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Element + ID Selector (ID will override the h1 element rule) -->
+  <h1 id="main-header">Welcome to My Week 2 Page</h1>
+
+  <!-- Standard Paragraph -->
+  <p>This is a standard paragraph showing default element styles.</p>
+
+  <!-- Paragraph with Class Selector -->
+  <p class="highlight">This paragraph uses the .highlight class.</p>
+
+  <!-- Link with :hover pseudo-class -->
+  <p>
+    <a href="https://example.com" target="_blank">Visit Example Link</a>
+  </p>
+
+  <div class="card-container">
+    <div class="data-card card-content-box">
+      <h3>Active Users</h3>
+      <p class="metric">24,582</p>
+      <p class="description">+12% from last week</p>
+    </div>
+
+    <div class="data-card card-border-box">
+      <h3>Server Latency</h3>
+      <p class="metric">42 ms</p>
+      <p class="description">Optimal performance</p>
+    </div>
+
+    <div class="data-card card-border-box">
+      <h3>Total Requests</h3>
+      <p class="metric">1.2M</p>
+      <p class="description">Past 24 hours</p>
+    </div>
+  </div>
+
+  <div class="dashboard">
+    <div class="card">
+      <h3>Revenue</h3>
+      <p class="stat">$48,250</p>
+    </div>
+
+    <div class="card">
+      <h3>Signups</h3>
+      <p class="stat">1,420</p>
+    </div>
+
+    <div class="card">
+      <h3>Bounce Rate</h3>
+      <p class="stat">24.6%</p>
+    </div>
+
+    <div class="card">
+      <h3>Avg. Session</h3>
+      <p class="stat">4m 12s</p>
+    </div>
+  </div>
+
+
+    <h1 id="title">Hello World!</h1>
+    <button id="btn">Click me</button>
+
+    <script src="app.js"></script>
+  
+</body>
+</html>
