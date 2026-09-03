@@ -1,0 +1,20 @@
+[
+    {
+        "house_id": 1,
+        "area": 80,
+        "bedrooms": 3,
+        "prediction": 3500000000
+    },
+    {
+        "house_id": 2,
+        "area": 120,
+        "bedrooms": 4,
+        "prediction": 5200000000
+    },
+    {
+        "house_id": 3,
+        "area": 60,
+        "bedrooms": 2,
+        "prediction": 2800000000
+    }
+]
