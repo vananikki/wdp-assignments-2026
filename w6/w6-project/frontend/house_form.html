@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>House Price Prediction</title>
+
+    <style>
+
+        /* =========================
+           GLOBAL
+        ========================= */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+
+            min-height: 100vh;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    #dbeafe 0%,
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at bottom right,
+                    #ede9fe 0%,
+                    transparent 35%
+                ),
+                #f8fafc;
+
+            color: #1e293b;
+
+            padding: 40px 20px;
+
+            overflow-x: hidden;
+        }
+
+
+        /* =========================
+           DECORATIVE BACKGROUND
+        ========================= */
+
+        .background-circle {
+            position: fixed;
+
+            width: 300px;
+            height: 300px;
+
+            border-radius: 50%;
+
+            background: linear-gradient(
+                135deg,
+                rgba(99, 102, 241, 0.15),
+                rgba(59, 130, 246, 0.05)
+            );
+
+            filter: blur(5px);
+
+            z-index: -1;
+
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .circle-one {
+            top: -100px;
+            left: -100px;
+        }
+
+        .circle-two {
+            bottom: -120px;
+            right: -100px;
+
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(25px);
+            }
+        }
+
+
+        /* =========================
+           MAIN CONTAINER
+        ========================= */
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+
+            margin: auto;
+        }
+
+
+        /* =========================
+           BANNER PANEL
+        ========================= */
+
+        .hero {
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 45px 45px;
+
+            border-radius: 28px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #4f46e5 55%,
+                    #7c3aed
+                );
+
+            color: white;
+
+            box-shadow:
+                0 20px 50px rgba(37, 99, 235, 0.25);
+
+            margin-bottom: 25px;
+        }
+
+
+        /* Decorative circles */
+
+        .hero::before {
+            content: "";
+
+            position: absolute;
+
+            width: 220px;
+            height: 220px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.08);
+
+            right: -70px;
+            top: -80px;
+        }
+
+        .hero::after {
+            content: "";
+
+            position: absolute;
+
+            width: 150px;
+            height: 150px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.06);
+
+            right: 100px;
+            bottom: -100px;
+        }
+
+
+        .hero-content {
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        .hero-badge {
+            display: inline-block;
+
+            padding: 7px 14px;
+
+            border-radius: 20px;
+
+            background: rgba(255, 255, 255, 0.15);
+
+            backdrop-filter: blur(10px);
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            margin-bottom: 18px;
+        }
+
+
+        .hero h1 {
+            font-size: 42px;
+
+            margin-bottom: 12px;
+
+            letter-spacing: -1px;
+        }
+
+
+        .hero p {
+            font-size: 16px;
+
+            line-height: 1.6;
+
+            max-width: 570px;
+
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+
+        /* House icon */
+
+        .house-icon {
+            position: absolute;
+
+            right: 45px;
+            bottom: 25px;
+
+            font-size: 80px;
+
+            opacity: 0.18;
+
+            animation: houseFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes houseFloat {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(2deg);
+            }
+        }
+
+
+        /* =========================
+           FORM CARD
+        ========================= */
+
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+
+            backdrop-filter: blur(15px);
+
+            border: 1px solid rgba(255, 255, 255, 0.8);
+
+            border-radius: 24px;
+
+            padding: 35px;
+
+            box-shadow:
+                0 15px 40px rgba(15, 23, 42, 0.08);
+
+            transition: 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 20px 50px rgba(15, 23, 42, 0.12);
+        }
+
+
+        .card-header {
+            margin-bottom: 28px;
+        }
+
+        .card-header h2 {
+            font-size: 24px;
+
+            color: #0f172a;
+
+            margin-bottom: 7px;
+        }
+
+        .card-header p {
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           FORM
+        ========================= */
+
+        form {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 20px;
+        }
+
+
+        .form-group {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 8px;
+        }
+
+
+        label {
+            font-size: 14px;
+
+            font-weight: 700;
+
+            color: #334155;
+        }
+
+
+        .input-wrapper {
+            position: relative;
+        }
+
+
+        .input-icon {
+            position: absolute;
+
+            left: 15px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            font-size: 18px;
+
+            pointer-events: none;
+        }
+
+
+        input,
+        select {
+
+            width: 100%;
+
+            padding: 14px 15px 14px 45px;
+
+            border: 1.5px solid #e2e8f0;
+
+            border-radius: 13px;
+
+            background: #f8fafc;
+
+            color: #1e293b;
+
+            font-size: 15px;
+
+            outline: none;
+
+            transition: all 0.25s ease;
+        }
+
+
+        input:hover,
+        select:hover {
+            border-color: #a5b4fc;
+        }
+
+
+        input:focus,
+        select:focus {
+
+            border-color: #6366f1;
+
+            background: white;
+
+            box-shadow:
+                0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+
+        select {
+            cursor: pointer;
+        }
+
+
+        /* =========================
+           BUTTON
+        ========================= */
+
+        button {
+
+            position: relative;
+
+            width: 100%;
+
+            border: none;
+
+            padding: 15px;
+
+            margin-top: 5px;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #4f46e5
+                );
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 8px 20px rgba(79, 70, 229, 0.25);
+
+            transition: all 0.25s ease;
+        }
+
+
+        button:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 12px 25px rgba(79, 70, 229, 0.35);
+        }
+
+
+        button:active {
+            transform: translateY(0);
+        }
+
+
+        button::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: -100%;
+
+            width: 100%;
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255,255,255,0.25),
+                    transparent
+                );
+
+            transition: 0.5s;
+        }
+
+
+        button:hover::before {
+            left: 100%;
+        }
+
+
+        /* =========================
+           RESULT
+        ========================= */
+
+        #result {
+
+            margin-top: 25px;
+
+            padding: 25px;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ecfdf5,
+                    #f0fdf4
+                );
+
+            border: 1px solid #bbf7d0;
+
+            color: #166534;
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+            text-align: center;
+
+            opacity: 0;
+
+            transform: translateY(10px);
+
+            transition: all 0.4s ease;
+        }
+
+
+        #result.show {
+
+            opacity: 1;
+
+            transform: translateY(0);
+        }
+
+
+        .result-label {
+
+            display: block;
+
+            font-size: 13px;
+
+            color: #15803d;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .price {
+
+            font-size: 30px;
+
+            color: #166534;
+        }
+
+
+        /* =========================
+           ERROR
+        ========================= */
+
+        #error {
+
+            margin-top: 20px;
+
+            padding: 14px 16px;
+
+            border-radius: 12px;
+
+            background: #fef2f2;
+
+            border: 1px solid #fecaca;
+
+            color: #dc2626;
+
+            font-size: 14px;
+
+            display: none;
+        }
+
+
+        #error.show {
+            display: block;
+
+            animation: shake 0.3s ease;
+        }
+
+
+        @keyframes shake {
+
+            0% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            50% {
+                transform: translateX(5px);
+            }
+
+            75% {
+                transform: translateX(-5px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+
+            text-align: center;
+
+            margin-top: 25px;
+
+            color: #94a3b8;
+
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 650px) {
+
+            body {
+                padding: 20px 15px;
+            }
+
+            .hero {
+                padding: 30px 25px;
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+
+            .house-icon {
+                display: none;
+            }
+
+            .card {
+                padding: 25px 20px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <!-- Decorative background -->
+    <div class="background-circle circle-one"></div>
+    <div class="background-circle circle-two"></div>
+
+
+    <main class="container">
+
+
+        <!-- =========================
+             BANNER PANEL
+        ========================= -->
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <span class="hero-badge">
+                    🏠 AI POWERED REAL ESTATE
+                </span>
+
+                <h1>
+                    House Price
+                    <br>
+                    Prediction
+                </h1>
+
+                <p>
+                    Estimate your property's market value
+                    using area, number of bedrooms,
+                    and location.
+                </p>
+
+            </div>
+
+            <div class="house-icon">
+                🏡
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             FORM CARD
+        ========================= -->
+
+        <section class="card">
+
+            <div class="card-header">
+
+                <h2>
+                    Property Information
+                </h2>
+
+                <p>
+                    Enter the details of the property
+                    to get an estimated price.
+                </p>
+
+            </div>
+
+
+            <form id="houseForm">
+
+
+                <!-- Area -->
+
+                <div class="form-group">
+
+                    <label for="area">
+                        Area
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            📐
+                        </span>
+
+                        <input
+                            type="number"
+                            id="area"
+                            name="area"
+                            step="0.01"
+                            min="0"
+                            placeholder="e.g. 75.5"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- Bedrooms -->
+
+                <div class="form-group">
+
+                    <label for="bedrooms">
+                        Number of bedrooms
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            🛏️
+                        </span>
+
+                        <input
+                            type="number"
+                            id="bedrooms"
+                            name="bedrooms"
+                            min="1"
+                            step="1"
+                            placeholder="e.g. 3"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- Location -->
+
+                <div class="form-group">
+
+                    <label for="location">
+                        Location
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            📍
+                        </span>
+
+                        <select
+                            id="location"
+                            name="location"
+                        >
+
+                            <option value="hanoi">
+                                Hanoi
+                            </option>
+
+                            <option value="hcmc">
+                                Ho Chi Minh City
+                            </option>
+
+                            <option value="other">
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Submit -->
+
+                <button
+                    type="submit"
+                    id="predictButton"
+                >
+                    <span id="buttonText">
+                        🔮 Predict Price
+                    </span>
+                </button>
+
+            </form>
+
+
+            <!-- =========================
+                 RESULT
+            ========================= -->
+
+            <div id="result">
+
+                <span class="result-label">
+                    Estimated Property Value
+                </span>
+
+                <span class="price" id="price">
+                </span>
+
+            </div>
+
+
+            <!-- =========================
+                 ERROR
+            ========================= -->
+
+            <div id="error"></div>
+
+        </section>
+
+
+        <div class="footer">
+            AI House Price Prediction System · Web Design & Programming
+        </div>
+
+
+    </main>
+
+
+    <script>
+
+
+        // =====================================
+        // GET HTML ELEMENTS
+        // =====================================
+
+        const form =
+            document.getElementById("houseForm");
+
+        const result =
+            document.getElementById("result");
+
+        const price =
+            document.getElementById("price");
+
+        const error =
+            document.getElementById("error");
+
+        const button =
+            document.getElementById("predictButton");
+
+        const buttonText =
+            document.getElementById("buttonText");
+
+
+        // =====================================
+        // FORM SUBMIT EVENT
+        // =====================================
+
+        form.addEventListener(
+            "submit",
+            async function(event) {
+
+                // Prevent page reload
+                event.preventDefault();
+
+
+                // Clear previous result
+                result.classList.remove("show");
+
+                error.classList.remove("show");
+
+                error.textContent = "";
+
+
+                // =================================
+                // READ FORM VALUES
+                // =================================
+
+                const area =
+                    parseFloat(
+                        document.getElementById("area").value
+                    );
+
+                const bedrooms =
+                    parseInt(
+                        document.getElementById("bedrooms").value
+                    );
+
+                const location =
+                    document.getElementById("location").value;
+
+
+                // =================================
+                // EXTRA VALIDATION
+                // =================================
+
+                if (area <= 0) {
+
+                    error.textContent =
+                        "Area must be greater than 0.";
+
+                    error.classList.add("show");
+
+                    return;
+                }
+
+
+                if (bedrooms < 1) {
+
+                    error.textContent =
+                        "Number of bedrooms must be at least 1.";
+
+                    error.classList.add("show");
+
+                    return;
+                }
+
+
+                // =================================
+                // LOADING STATE
+                // =================================
+
+                button.disabled = true;
+
+                buttonText.textContent =
+                    "⏳ Predicting...";
+
+
+                try {
+
+
+                    // =================================
+                    // CALL API
+                    // =================================
+
+                    const response =
+                        await fetch(
+                            `http://127.0.0.1:8000/predict?area=${area}&bedrooms=${bedrooms}&location=${location}`
+                        );
+
+
+                    // =================================
+                    // CHECK RESPONSE
+                    // =================================
+
+                    if (!response.ok) {
+
+                        if (!response.ok) {
+                            const errorData = await response.text();
+                            throw new Error(
+                                `API Error ${response.status}: ${errorData}`
+                            );
+                        }
+
+                    }
+
+
+                    // =================================
+                    // PARSE JSON
+                    // =================================
+
+                    const data =
+                        await response.json();
+
+
+                    // =================================
+                    // FORMAT PRICE
+                    // =================================
+
+                    const formattedPrice =
+                        Number(
+                            data.predicted_price
+                        ).toLocaleString("en-US");
+
+
+                    // =================================
+                    // DISPLAY RESULT
+                    // =================================
+
+                    price.textContent =
+                        `${formattedPrice} VND`;
+
+                    result.classList.add("show");
+
+
+                }
+
+                catch (err) {
+
+
+                    // =================================
+                    // ERROR HANDLING
+                    // =================================
+
+                    error.textContent =
+                        "⚠️ Error: " + err.message;
+
+                    error.classList.add("show");
+
+                }
+
+
+                finally {
+
+
+                    // =================================
+                    // RESET BUTTON
+                    // =================================
+
+                    button.disabled = false;
+
+                    buttonText.textContent =
+                        "🔮 Predict Price";
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>
